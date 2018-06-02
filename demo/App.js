@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PdfContent = ({
+const Content = ({
   resource,
   resourceType,
   onLoad,
@@ -70,11 +70,12 @@ const PdfContent = ({
         style={styles.pdfView}
         resource={resource}
         resourceType={resourceType}
+        testID="pdfContent"
         onLoad={onLoad}
         onError={onError}
       />
     ) : (
-      <View style={styles.noContent}>
+      <View testID="noContent" style={styles.noContent}>
         <Text style={styles.noContentText}>No resource{'\n'}Press one of the buttons above</Text>
         <Text style={styles.noContentSubText}>You are running the app in {__DEV__ ? 'DEV' : 'RELEASE'} mode</Text>
       </View>
@@ -83,9 +84,9 @@ const PdfContent = ({
   return <View style={styles.content}>{content}</View>;
 };
 
-const TabButton = ({ title, onPress }) => (
+const TabButton = ({ title, onPress, testID }) => (
   <View style={styles.tab}>
-    <Button onPress={onPress} title={title} />
+    <Button onPress={onPress} title={title} testID={testID} />
   </View>
 );
 
@@ -145,17 +146,17 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.tabs}>
-          <TabButton onPress={this.setUrl} title="Url" />
-          <TabButton onPress={this.setBase64} title="Base64" />
-          <TabButton onPress={this.setFile} title="File" />
-          <TabButton onPress={this.dataWithError} title="Error" />
-          <TabButton onPress={this.resetData} title="Reset" />
+          <TabButton onPress={this.setUrl} title="Url" testID="urlButton" />
+          <TabButton onPress={this.setBase64} title="Base64" testID="base64Button" />
+          <TabButton onPress={this.setFile} title="File" testID="fileButton" />
+          <TabButton onPress={this.dataWithError} title="Error" testID="errorButton" />
+          <TabButton onPress={this.resetData} title="Reset" testID="resetButton" />
         </View>
-        <PdfContent
+        <Content
+          onError={this.handleError}
+          onLoad={this.handleLoad}
           resource={resource}
           resourceType={resourceType}
-          onLoad={this.handleLoad}
-          onError={this.handleError}
         />
       </View>
     );
